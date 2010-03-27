@@ -6,6 +6,26 @@ homepage:
   url:   /
   param: { module: default, action: index }
 
+# Canvas URLs
+
+canvas_rateafriend:
+  url: /canvas/rateafriend
+  param:
+    module: canvas
+    action: rateafriend
+
+canvas_dorate:
+  url: /canvas/dorate
+  param:
+    module: canvas
+    action: dorate
+
+canvas_xdreceiver:
+  url: /canvas/xd_receiver.htm
+  param:
+    module: canvas
+    action: xdreceiver
+
 # generic rules
 # please, remove them by adding more specific rules
 default_index:
