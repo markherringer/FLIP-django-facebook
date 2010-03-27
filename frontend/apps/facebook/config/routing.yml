@@ -20,6 +20,12 @@ canvas_dorate:
     module: canvas
     action: dorate
 
+canvas_summary:
+  url: /canvas/ratingsummary
+  param:
+    module: canvas
+    action: ratingsummary
+
 canvas_xdreceiver:
   url: /canvas/xd_receiver.htm
   param:

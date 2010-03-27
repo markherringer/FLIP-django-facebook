@@ -144,6 +144,36 @@ class canvasActions extends sfActions
   }
   
   /**
+   * Shows a summary of the ratings
+   * 
+   * @param sfWebRequest $request
+   */
+  public function executeRatingsummary(sfWebRequest $request)
+  {
+    $this->checkLogin();
+    
+    $this->ratings = $this->getUser()->getAttribute("friendRatings", false);
+    if (!$this->ratings || empty($this->ratings))
+    {
+      $this->redirect("@canvas_rateafriend");
+    }
+
+    // user ID?
+    if (!$this->getUser()->getAttribute("selectedFriend", false))
+    {
+      $this->redirect("@canvas_rateafriend");
+    }
+    
+    // Get friend's details
+    $this->friendID = $this->getUser()->getAttribute("selectedFriend");
+    $friend = $this->facebook->api_client->users_getInfo($this->friendID, 'first_name, last_name');
+    $this->friendName = $friend[0]["first_name"] . " " . $friend[0]["last_name"];
+    
+    // Get all the skills we've rated the friend on
+    $this->skills = Doctrine::getTable("Skill")->findAll();
+  }
+  
+  /**
    * Handles the saving of ratings against a user's ID
    * @return unknown_type
    */
