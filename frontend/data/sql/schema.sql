@@ -1,0 +1,2 @@
+CREATE TABLE facebook_user (id BIGINT AUTO_INCREMENT, uid BIGINT NOT NULL, last_profile_update_at DATETIME, session_key TEXT NOT NULL, expiration_time DATETIME, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, deleted_at DATETIME, PRIMARY KEY(id)) ENGINE = INNODB;
+CREATE TABLE flip_facebook_user (id BIGINT AUTO_INCREMENT, uid BIGINT NOT NULL, last_profile_update_at DATETIME, session_key TEXT NOT NULL, expiration_time DATETIME, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, deleted_at DATETIME, PRIMARY KEY(id)) ENGINE = INNODB;

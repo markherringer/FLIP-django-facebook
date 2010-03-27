@@ -1,0 +1,16 @@
+# Schema for Facebook stuff
+
+FlipFacebookUser:
+  actAs: [Timestampable, SoftDelete]
+  columns:
+    uid:
+      type: integer
+      notnull: true
+    last_profile_update_at:
+      type: timestamp
+    session_key:
+      type: string
+      notnull: true
+    expiration_time:
+      type: timestamp
+    

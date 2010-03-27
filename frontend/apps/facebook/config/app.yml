@@ -3,3 +3,9 @@
 
 # default values
 #all:
+
+all:
+  facebook:
+    apiKey: e7474f12247c43b42abc25d296d3b4a2
+    appSecret: d343f8e8ed5960218bec36ef4cf70233
+    appId: 112001728817137
