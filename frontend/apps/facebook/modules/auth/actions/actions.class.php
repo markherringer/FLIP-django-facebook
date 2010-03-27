@@ -35,7 +35,20 @@ class authActions extends sfActions
     $fbUser->save();
   }
   
+  /**
+   * Removes a user's entry from the FB user table.
+   *
+   * @param sfWebRequest $request
+   */
   public function executeRemove(sfWebRequest $request)
   {
+    if (!$request->isMethod("post"))
+    {
+      return sfView::NONE;
+    }
+
+    $userID = $request->getParameter("fb_sig_user");
+    $fbUser = Doctrine::getTable("FlipFacebookUser")->findOneByUid($userID);
+    $fbUser->delete();
   }
 }
