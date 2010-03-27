@@ -57,6 +57,28 @@ class canvasActions extends sfActions
   {
     $this->setLayout(false);
   }
+  
+  /**
+   * Stage 1 of the rating process.
+   * 
+   * @param sfWebRequest $request
+   */
+  public function executeDorate(sfWebRequest $request)
+  {
+    $this->checkLogin();
+    
+    // user ID?
+    if (!$request->getParameter("friend_selector_id", false))
+    {
+      // error, no user ID supplied
+      $this->redirect("@default?module=canvas&action=index");
+    }
+    
+    // Get friend's details
+    $this->friendID = $request->getParameter("friend_selector_id");
+    $friend = $this->facebook->api_client->users_getInfo($this->friendID, 'first_name, last_name');
+    $this->friendName = $friend[0]["first_name"] . " " . $friend[0]["last_name"];
+  }
 
   /**
    * Performs Facebook authentication check
@@ -67,7 +89,7 @@ class canvasActions extends sfActions
     // otherwise we can't do anything
     $appapikey = sfConfig::get("app_facebook_apiKey");
     $appsecret = sfConfig::get("app_facebook_appSecret");
-    $facebook = new Facebook($appapikey, $appsecret);
-    $this->userId = $facebook->require_login();
+    $this->facebook = new Facebook($appapikey, $appsecret);
+    $this->userId = $this->facebook->require_login();
   }
 }
