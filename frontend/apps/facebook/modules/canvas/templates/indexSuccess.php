@@ -68,6 +68,11 @@ $(document).ready(function(){
 
 <h1>Welcome to FLIP</h1>
 
+
+<a href="<?php echo url_for("@canvas_rateafriend");?>">Select a friend to rate</a>
+
+<hr />
+
 <a href="<?php echo url_for("@default?module=canvas&action=test"); ?>">Kevin's Test page</a>
 
 <!-- the triggers --> 
@@ -110,4 +115,3 @@ $(document).ready(function(){
     <br /> 
  
 </div>
-

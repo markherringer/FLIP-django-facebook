@@ -10,6 +10,11 @@
  */
 class canvasActions extends sfActions
 {
+  public function preExecute()
+  {
+    $this->setLayout("fbmlLayout");
+  }
+  
  /**
   * Executes canvas index action
   *
@@ -23,10 +28,39 @@ class canvasActions extends sfActions
     // these are displayed in the view
   }
 
+  /**
+   * Kevin's test method
+   * 
+   * @param sfWebRequest $request
+   */
   public function executeTest(sfWebRequest $request)
   {
   }
+  
+  /**
+   * The 'Rate a friend' initial landing page.  Shows the user's friends
+   * in a nice friend picker stylee.
+   * 
+   * @param sfWebRequest $request
+   */
+  public function executeRateafriend(sfWebRequest $request)
+  {
+    $this->checkLogin();
+  }
+  
+  /**
+   * xd_receiver.html file that Facebook needs to get XFBML linkups goin
+   * 
+   * @param sfWebRequest $request
+   */
+  public function executeXdreceiver(sfWebRequest $request)
+  {
+    $this->setLayout(false);
+  }
 
+  /**
+   * Performs Facebook authentication check
+   */
   protected function checkLogin()
   {
     // We need to make sure the user has added the application
