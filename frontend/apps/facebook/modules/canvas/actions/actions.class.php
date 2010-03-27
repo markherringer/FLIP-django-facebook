@@ -101,7 +101,7 @@ class canvasActions extends sfActions
     $this->ratePosition = $this->getUser()->getAttribute("ratingPosition", 0);
     
     // Create our form
-    $this->form = new SkillRatingForm(array(), array("position" => $this->ratePosition, "skills" => $this->skills));
+    $this->form = new SkillRatingParentForm(array(), array("position" => $this->ratePosition, "skills" => $this->skills));
     
     // handle post
     if ($request->isMethod("post"))
@@ -121,28 +121,20 @@ class canvasActions extends sfActions
     if ($this->form->isValid())
     {
       // cool, rating is OK
-      // increase the iterator value
-      $this->ratePosition++;
-      $this->getUser()->setAttribute("ratingPosition", $this->ratePosition);
-      
-      // so save the rating details into the session
+      // save the rating details into the session
       $ratings = $this->getUser()->getAttribute("friendRatings", array());
-      $ratings[$this->skills->offsetGet($this->ratePosition-1)->id] = $this->form->getValue("rating");
-      $this->getUser()->setAttribute("friendRatings", $ratings);
       
-      if ($this->ratePosition == $this->skills->count())
+      // get values from form into an array
+      foreach ($this->form->getEmbeddedForms() as $eForm)
       {
-        // We're done!
-        $this->saveRatings();
-        
-        // AJK's notification stuff should come in here
-        // XXX
-        
-        // and then a redirect or something
+        $pos = $eForm->getOption("position");
+        $ratings[$this->skills->offsetGet($pos)->id] = $eForm->getValue("rating");
       }
       
-      // and redirect back to the same page
-      $this->redirect("@canvas_dorate");
+      $this->getUser()->setAttribute("friendRatings", $ratings);
+      
+      // and redirect back to the summary page, prior to saving
+      $this->redirect("@canvas_summary");
     }
     else
     {

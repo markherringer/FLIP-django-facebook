@@ -10,7 +10,7 @@ class SkillRatingForm extends sfForm
   public function configure()
   {
     // name format
-    $this->widgetSchema->setOption("name_format", "rating[%s]");
+    //$this->widgetSchema->setOption("name_format", "rating[%s]");
     
     // Set up the radio icons for the 4 states
     $states = Doctrine::getTable("Rating")->getStates();
@@ -22,10 +22,6 @@ class SkillRatingForm extends sfForm
     }
     $this->widgetSchema["rating"] = new sfWidgetFormSelectRadio(array("choices" => $choices));
     $this->validatorSchema["rating"] = new sfValidatorChoice(array("choices" => $choices));
-    
-    // Add the ID of the skill we're rating in
-    $this->widgetSchema["skillid"] = new sfWidgetFormInputHidden();
-    $this->validatorSchema["skillid"] = new sfValidatorInteger();
     
     // Set up additional validation
     $this->validatorSchema->setPostValidator(
@@ -46,7 +42,8 @@ class SkillRatingForm extends sfForm
   public function postValidate($validator, $values)
   {
     // Check skill ID exists
-    $skill = Doctrine::getTable("Skill")->findOneById($values["skillid"]);
+    $skillID = $this->getOption("skills")->offsetGet($this->getOption("position"))->id;
+    $skill = Doctrine::getTable("Skill")->findOneById($skillID);
     if (!$skill)
     {
       $error = new sfValidatorError($validator, "Skill ID is invalid");
@@ -54,17 +51,5 @@ class SkillRatingForm extends sfForm
     }
     
     return $values;
-  }
-      
-  /**
-   * Overriding the bind method so we always use the correct position.
-   * 
-   * @see frontend/lib/vendor/symfony/lib/form/sfForm#bind($taintedValues, $taintedFiles)
-   */
-  public function bind(array $taintedValues = null, array $taintedFiles = null)
-  {
-    $taintedValues["skillid"] = $this->getOption("skills")->offsetGet($this->getOption("position"))->id;
-    
-    parent::bind($taintedValues, $taintedFiles);
   }
 }

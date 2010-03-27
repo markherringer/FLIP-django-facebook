@@ -7,10 +7,6 @@
 <p>
   How would you rate <?php echo $friendName; ?> on the following skill?
   
-  <blockquote>
-    <?php echo $skills->offsetGet($ratePosition); ?>
-  </blockquote>
-  
 </p>
 
 <form method="post" action="<?php echo url_for("@canvas_dorate"); ?>">
