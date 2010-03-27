@@ -1,8 +1,3 @@
-<p>Hello, <fb:name uid="<?php echo $userId; ?>" useyou="false" />!</p>
+<h1>Welcome to FLIP</h1>
 
-<p>
-  Friends:
-  <?php foreach ($friends as $friend): ?>
-    <?php echo $friend; ?><br />
-  <?php endforeach;?>
-</p>
+<a href="<?php echo url_for("@default?module=canvas&action=test"); ?>">Kevin's Test page</a>

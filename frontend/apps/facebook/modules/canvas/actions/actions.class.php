@@ -11,18 +11,29 @@
 class canvasActions extends sfActions
 {
  /**
-  * Executes index action
+  * Executes canvas index action
   *
   * @param sfRequest $request A request object
   */
   public function executeIndex(sfWebRequest $request)
   {
+    $this->checkLogin();
+
+    // We have 2 calls to action on the home page by default
+    // these are displayed in the view
+  }
+
+  public function executeTest(sfWebRequest $request)
+  {
+  }
+
+  protected function checkLogin()
+  {
+    // We need to make sure the user has added the application
+    // otherwise we can't do anything
     $appapikey = sfConfig::get("app_facebook_apiKey");
     $appsecret = sfConfig::get("app_facebook_appSecret");
     $facebook = new Facebook($appapikey, $appsecret);
     $this->userId = $facebook->require_login();
-    
-    $friends = $facebook->api_client->friends_get();
-    $this->friends = array_slice($friends, 0, 25);
   }
 }
