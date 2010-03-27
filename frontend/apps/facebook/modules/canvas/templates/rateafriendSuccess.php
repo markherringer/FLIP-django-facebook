@@ -6,7 +6,7 @@ Select the friend you want to begin rating:
     <script type="text/fbml">
       <fb:fbml>
 
-        <form method="post" action="<?php echo url_for("@canvas_dorate", true); ?>">
+        <form method="post" action="<?php echo url_for("@canvas_rateafriend", true); ?>">
 
           <fb:friend-selector />
 

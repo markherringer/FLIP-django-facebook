@@ -16,7 +16,7 @@ abstract class BaseFlipFacebookUserForm extends BaseFormDoctrine
   {
     $this->setWidgets(array(
       'id'                     => new sfWidgetFormInputHidden(),
-      'uid'                    => new sfWidgetFormInputText(),
+      'uid'                    => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('MyRatings'), 'add_empty' => false)),
       'last_profile_update_at' => new sfWidgetFormDateTime(),
       'session_key'            => new sfWidgetFormTextarea(),
       'expiration_time'        => new sfWidgetFormDateTime(),
@@ -27,7 +27,7 @@ abstract class BaseFlipFacebookUserForm extends BaseFormDoctrine
 
     $this->setValidators(array(
       'id'                     => new sfValidatorDoctrineChoice(array('model' => $this->getModelName(), 'column' => 'id', 'required' => false)),
-      'uid'                    => new sfValidatorInteger(),
+      'uid'                    => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('MyRatings'))),
       'last_profile_update_at' => new sfValidatorDateTime(array('required' => false)),
       'session_key'            => new sfValidatorString(),
       'expiration_time'        => new sfValidatorDateTime(array('required' => false)),

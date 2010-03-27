@@ -46,6 +46,22 @@ class canvasActions extends sfActions
   public function executeRateafriend(sfWebRequest $request)
   {
     $this->checkLogin();
+    
+    if ($request->isMethod("post"))
+    {
+      // ID?
+      if (!$request->getParameter("friend_selector_id", false))
+      {
+        // error, no user ID supplied
+        $this->redirect("@default?module=canvas&action=index");
+      }
+      
+      // set into the session
+      $this->getUser()->setAttribute("ratingPosition", 0);
+      $this->getUser()->setAttribute("friendRatings", array());
+      $this->getUser()->setAttribute("selectedFriend", $request->getParameter("friend_selector_id"));
+      $this->redirect("@canvas_dorate");
+    }
   }
   
   /**
@@ -68,16 +84,91 @@ class canvasActions extends sfActions
     $this->checkLogin();
     
     // user ID?
-    if (!$request->getParameter("friend_selector_id", false))
+    if (!$this->getUser()->getAttribute("selectedFriend", false))
     {
-      // error, no user ID supplied
-      $this->redirect("@default?module=canvas&action=index");
+      $this->redirect("@canvas_rateafriend");
     }
     
     // Get friend's details
-    $this->friendID = $request->getParameter("friend_selector_id");
+    $this->friendID = $this->getUser()->getAttribute("selectedFriend");
     $friend = $this->facebook->api_client->users_getInfo($this->friendID, 'first_name, last_name');
     $this->friendName = $friend[0]["first_name"] . " " . $friend[0]["last_name"];
+    
+    // Get all the skills we're going to be rating the friend on
+    $this->skills = Doctrine::getTable("Skill")->findAll();
+    
+    // Where are we at in the process?
+    $this->ratePosition = $this->getUser()->getAttribute("ratingPosition", 0);
+    
+    // Create our form
+    $this->form = new SkillRatingForm(array(), array("position" => $this->ratePosition, "skills" => $this->skills));
+    
+    // handle post
+    if ($request->isMethod("post"))
+    {
+      $this->processRatingForm($request);
+    }
+  }
+  
+  /**
+   * Processes the form data
+   * 
+   * @param sfWebRequest $request
+   */
+  protected function processRatingForm(sfWebRequest $request)
+  {
+    $this->form->bind($request->getParameter($this->form->getName()));
+    if ($this->form->isValid())
+    {
+      // cool, rating is OK
+      // increase the iterator value
+      $this->ratePosition++;
+      $this->getUser()->setAttribute("ratingPosition", $this->ratePosition);
+      
+      // so save the rating details into the session
+      $ratings = $this->getUser()->getAttribute("friendRatings", array());
+      $ratings[$this->skills->offsetGet($this->ratePosition-1)->id] = $this->form->getValue("rating");
+      $this->getUser()->setAttribute("friendRatings", $ratings);
+      
+      if ($this->ratePosition == $this->skills->count())
+      {
+        // We're done!
+        $this->saveRatings();
+        
+        // AJK's notification stuff should come in here
+        // XXX
+        
+        // and then a redirect or something
+      }
+      
+      // and redirect back to the same page
+      $this->redirect("@canvas_dorate");
+    }
+    else
+    {
+      // form validation errors
+      $this->getUser()->setFlash("error", "There were some problems with your rating.  Please check and try again", false);
+    }
+  }
+  
+  /**
+   * Handles the saving of ratings against a user's ID
+   * @return unknown_type
+   */
+  protected function saveRatings()
+  {
+    $friendRatings = $this->getUser()->getAttribute("friendRatings");
+    $friendID = $this->getUser()->getAttribute("selectedFriend");
+    
+    foreach ($friendRatings as $skillID => $ratingValue)
+    {
+      $rating = new Rating();
+      $rating->uid = $friendID;
+      $rating->by_uid = $this->facebook->user;
+      $rating->skill_id = $skillID;
+      $rating->rating = $ratingValue;
+      $rating->save();
+    }
   }
 
   /**

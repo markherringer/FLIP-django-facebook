@@ -13,4 +13,43 @@ FlipFacebookUser:
       notnull: true
     expiration_time:
       type: timestamp
-    
+  relations:
+    MyRatings:
+      class: Rating
+      local: uid
+      foreign: uid
+      foreignType: many
+      foreignAlias: RatedUser
+    RatingsOfMe:
+      class: Rating
+      local: uid
+      foreign: by_uid
+      foreignType: many
+      foreignAlias: RatingUser
+
+Skill:
+  actAs: [SoftDelete]
+  columns:
+    name:
+      type: string
+      notnull: true
+
+Rating:
+  actAs: [Timestampable, SoftDelete]
+  columns:
+    uid:
+      type: integer
+      notnull: true
+    by_uid:
+      type: integer
+      notnull: true
+    skill_id:
+      type: integer
+      notnull: true
+    rating:
+      type: enum
+      values: ["Not very good", "Good", "Very good", "Excellent"]
+  relations:
+    Skill:
+      local: skill_id
+      foreign: id

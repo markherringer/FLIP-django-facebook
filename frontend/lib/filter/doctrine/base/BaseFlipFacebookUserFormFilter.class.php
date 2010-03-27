@@ -13,7 +13,7 @@ abstract class BaseFlipFacebookUserFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'uid'                    => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'uid'                    => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('MyRatings'), 'add_empty' => true)),
       'last_profile_update_at' => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
       'session_key'            => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'expiration_time'        => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
@@ -23,7 +23,7 @@ abstract class BaseFlipFacebookUserFormFilter extends BaseFormFilterDoctrine
     ));
 
     $this->setValidators(array(
-      'uid'                    => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'uid'                    => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('MyRatings'), 'column' => 'id')),
       'last_profile_update_at' => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 00:00:00')), 'to_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 23:59:59')))),
       'session_key'            => new sfValidatorPass(array('required' => false)),
       'expiration_time'        => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 00:00:00')), 'to_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 23:59:59')))),
@@ -50,7 +50,7 @@ abstract class BaseFlipFacebookUserFormFilter extends BaseFormFilterDoctrine
   {
     return array(
       'id'                     => 'Number',
-      'uid'                    => 'Number',
+      'uid'                    => 'ForeignKey',
       'last_profile_update_at' => 'Date',
       'session_key'            => 'Text',
       'expiration_time'        => 'Date',
