@@ -1,0 +1,7 @@
+.buildpath
+.project
+.settings
+cache/*
+log/*
+!.gitignore
+.sw[op]
