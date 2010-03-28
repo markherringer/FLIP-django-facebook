@@ -164,6 +164,10 @@ class canvasActions extends sfActions
       $this->redirect("@canvas_rateafriend");
     }
     
+    // Get user's details
+    $user = $this->facebook->api_client->users_getInfo($this->facebook->user, 'first_name, last_name');
+    $this->userName = $user[0]["first_name"] . " " . $user[0]["last_name"];
+
     // Get friend's details
     $this->friendID = $this->getUser()->getAttribute("selectedFriend");
     $friend = $this->facebook->api_client->users_getInfo($this->friendID, 'first_name, last_name');
@@ -171,6 +175,19 @@ class canvasActions extends sfActions
     
     // Get all the skills we've rated the friend on
     $this->skills = Doctrine::getTable("Skill")->findAll();
+
+    $properties = array();
+    foreach ($this->skills as $skill)
+    {
+      $rating = $this->ratings[$skill->id];
+      if (substr($rating, 0, 3) != 'Not')
+      {
+        $properties[$skill->name] = $rating;
+      }
+    }
+    $this->properties = $properties;
+
+    $this->apiKey = sfConfig::get('app_facebook_apiKey');
   }
   
   /**

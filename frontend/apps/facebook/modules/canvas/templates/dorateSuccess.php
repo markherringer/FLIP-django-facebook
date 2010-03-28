@@ -13,6 +13,6 @@
 
 <?php echo $form; ?>
 
-<input type="submit" value="Save this rating" />
+<input id='name' type="submit" value="Save this rating" />
 
 </form>
