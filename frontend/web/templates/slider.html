@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Insert title here</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js" > </script>
+	<script type="text/javascript" src="js/customInput.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+
+		$('input').customInput();
+		
+		var intLeftImage=1, intRightImage=2, intItemWidth=680, intLastImageIndex=3;
+		var galleryslidespeed;
+		var slideNum = 1;
+		
+		$('.next').bind('click', function() {
+			//alert(slideNum);
+			// ensure it's completed
+			if (!isCompleted(slideNum)) return false;
+			
+			slideLeft();
+			//alert(slideNum);
+			return false;
+			
+		});
+
+		$('.finish_btn').bind('click', function() {
+			//alert(slideNum);
+			// ensure it's completed
+			if (!isCompleted(slideNum)) return false;
+			
+			$('#frmQuestions').submit();
+			//alert(slideNum);
+			return false;
+			
+		});
+
+		$('.question-pane input').bind('change', function() {
+			if (isCompleted(slideNum)) 
+			{
+				$('#question'+slideNum+' .next').removeClass('disabled');
+				$('#question'+slideNum+' .finish_btn').removeClass('disabled');
+			}
+			else 
+			{
+				$('#question'+slideNum+' .next').addClass('disabled');
+				$('#question'+slideNum+' .finish_btn').addClass('disabled');
+			}
+		});
+	
+		function slideLeft()
+		{
+			//if we've slid all the way left but somehow ended up calling this function again, just ditch out
+			//if (intRightImage >= intLastImageIndex)
+			//	return;
+				
+			intLeft=parseInt($('#slider').css('left').replace(/px/,''), 10);
+			
+			//if the left is not a multiple of intItemWidth, we're actually sliding right now, so ditch out
+			if (0 != Math.abs(intLeft) % intItemWidth)
+				return;
+			
+			intNewLeft=intLeft-intItemWidth;
+			slideNum++;
+			$('#slider').animate({left: intNewLeft}, galleryslidespeed, 'linear', showProgress) ;
+			
+			
+		}
+
+		function isCompleted(intSlide)
+		{
+
+			if($('#question'+intSlide+' input:checked').val())
+			{
+				return true;
+			}
+			return false;
+		}
+
+		function showProgress()
+		{
+
+			$('#module_breadcrumb a').removeClass('active');
+			$('#module_breadcrumb a.prog'+slideNum).addClass('active');
+			
+			
+		}
+	
+	});
+
+	
+	
+	</script>
+	<link type="text/css" rel="stylesheet" href="../css/styles.css" />
+	
+<style type="text/css">
+.modal { 
+    background-color:#fff; 
+    display:none; 
+    width:680px; 
+    padding:15px; 
+    text-align:left; 
+    border:2px solid #333; 
+ 
+    opacity:0.8; 
+    -moz-border-radius:6px; 
+    -webkit-border-radius:6px; 
+    -moz-box-shadow: 0 0 50px #ccc; 
+    -webkit-box-shadow: 0 0 50px #ccc; 
+} 
+ 
+.modal h2 { 
+    background:url(/img/global/info.png) 0 50% no-repeat; 
+    margin:0px; 
+    padding:10px 0 10px 10px; 
+    border-bottom:1px solid #333; 
+    font-size:20px; 
+}
+
+#slider-pane{
+	width:680px;
+	height:335px;
+	overflow:hidden;
+	margin-left:10px;
+}
+#slider{
+	width:3400px;
+	height:335px;
+	left:0;
+	position:relative;
+
+	
+}
+.question-pane{
+	width:680px;
+	height:335px;
+	float:left;
+}
+
+</style>
+
+
+</head>
+<body>
+
+	
+<div id="module_wrapper">
+    <div id="module">
+
+            <div class="isprite module_header">
+	            <img src="images/profile.jpg" width="62" height="62" alt="Profile" />
+	            <h3>Jason Thorbourne</h3>
+              	<ul id="module_breadcrumb">
+                    <li><a class="isprite prog1 one active" href="#"></a></li>
+                    <li><a class="isprite prog2 two" href="#"></a></li>
+                    <li><a class="isprite prog3 three" href="#"></a></li>
+                    <li><a class="isprite prog4 four" href="#"></a></li>
+                    <li><a class="isprite prog5 five" href="#"></a></li>
+                </ul>
+            </div><!-- END #module_header -->
+            
+            <form id="frmQuestions" name="frmQuestions" method="post" action="slider.html">
+            
+			<div id="slider-pane">
+				<div id="slider"> 
+					
+					<!-- QUESTION ONE  -->
+					<div class="question-pane" id="question1">
+						<div id="module_content">				                
+				            <h3>How do you rate Jason Thorbourne in handling money?</h3>
+			                <div id="question_btns">
+				                <ul>
+			                        <li class="bigradio not_good">
+			                        	<label for="1radio1">Not good</label>
+										<input type="radio" id="1radio1" name="rating1" value="Not good" />
+			                        </li>
+			                        <li class=" bigradio good select">
+										<label for="1radio2">Good</label>
+										<input type="radio" id="1radio2" name="rating1" value="Good"/>			                        
+			                        </li>
+			                        <li class="bigradio great">
+			                        	<label for="1radio3">Very Good</label>
+										<input type="radio" id="1radio3" name="rating1" value="Very Good"/>
+			                        </li>
+			                        <li class="bigradio excellent">
+										<label for="1radio4">Excellent</label>
+										<input type="radio" id="1radio4" name="rating1" value="Excellent"/>			                        
+			                        </li>
+			                    </ul>
+		                        <div class="clear"></div>
+			                </div>
+			            </div><!-- END #module_content -->
+					            
+					    <div class="isprite module_footer">
+					    	<a class="isprite next_btn next disabled" href="#"></a>
+					    </div>
+				    </div><!-- end question-pane -->
+		
+					<!-- QUESTION TWO -->
+					<div class="question-pane" id="question2">
+						<div id="module_content">				                
+				            <h3>How do you rate Jason Thorbourne in handling money?</h3>
+			                <div id="question_btns">
+				                <ul>
+			                        <li class="bigradio not_good">
+			                        	<label for="2radio1">Not good</label>
+										<input type="radio" id="2radio1" name="rating2" value="Not good" />
+			                        </li>
+			                        <li class=" bigradio good select">
+										<label for="2radio2">Good</label>
+										<input type="radio" id="2radio2" name="rating2" value="Good"/>			                        
+			                        </li>
+			                        <li class="bigradio great">
+			                        	<label for="2radio3">Very Good</label>
+										<input type="radio" id="2radio3" name="rating2" value="Very Good"/>
+			                        </li>
+			                        <li class="bigradio excellent">
+										<label for="2radio4">Excellent</label>
+										<input type="radio" id="2radio4" name="rating2" value="Excellent"/>			                        
+			                        </li>
+			                    </ul>
+		                        <div class="clear"></div>
+		                     </div>
+			            </div><!-- END #module_content -->
+					            
+					    <div class="isprite module_footer">
+					    	<a class="isprite next_btn next disabled" href="#"></a>
+					    </div>
+				    </div><!-- end question-pane -->
+
+					<!-- QUESTION TWO -->
+					<div class="question-pane" id="question3">
+						<div id="module_content">				                
+				            <h3>How do you rate Jason Thorbourne in handling money?</h3>
+			                <div id="question_btns">
+				                <ul>
+			                        <li class="bigradio not_good">
+			                        	<label for="3radio1">Not good</label>
+										<input type="radio" id="3radio1" name="rating3" value="Not good" />
+			                        </li>
+			                        <li class=" bigradio good select">
+										<label for="3radio2">Good</label>
+										<input type="radio" id="3radio2" name="rating3" value="Good"/>			                        
+			                        </li>
+			                        <li class="bigradio great">
+			                        	<label for="3radio3">Very Good</label>
+										<input type="radio" id="3radio3" name="rating3" value="Very Good"/>
+			                        </li>
+			                        <li class="bigradio excellent">
+										<label for="3radio4">Excellent</label>
+										<input type="radio" id="3radio4" name="rating3" value="Excellent"/>			                        
+			                        </li>
+			                    </ul>
+		                        <div class="clear"></div>
+		                     </div>
+			            </div><!-- END #module_content -->
+					            
+					    <div class="isprite module_footer">
+					    	<a class="isprite finish_btn disabled" href="#"></a>
+					    </div>
+				    </div><!-- end question-pane -->
+				    
+				    
+				</div><!-- end slider -->
+				
+				</form>
+				
+			</div><!--  end slider-pane -->
+        </div><!-- END #module -->
+</div><!-- END #module_wrapper -->
+
+</body>
+</html>
