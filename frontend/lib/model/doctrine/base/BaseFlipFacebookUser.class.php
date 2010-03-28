@@ -11,19 +11,22 @@
  * @property timestamp $expiration_time
  * @property Rating $MyRatings
  * @property Rating $RatingsOfMe
+ * @property Doctrine_Collection $MySkills
  * 
- * @method integer          getUid()                    Returns the current record's "uid" value
- * @method timestamp        getLastProfileUpdateAt()    Returns the current record's "last_profile_update_at" value
- * @method string           getSessionKey()             Returns the current record's "session_key" value
- * @method timestamp        getExpirationTime()         Returns the current record's "expiration_time" value
- * @method Rating           getMyRatings()              Returns the current record's "MyRatings" value
- * @method Rating           getRatingsOfMe()            Returns the current record's "RatingsOfMe" value
- * @method FlipFacebookUser setUid()                    Sets the current record's "uid" value
- * @method FlipFacebookUser setLastProfileUpdateAt()    Sets the current record's "last_profile_update_at" value
- * @method FlipFacebookUser setSessionKey()             Sets the current record's "session_key" value
- * @method FlipFacebookUser setExpirationTime()         Sets the current record's "expiration_time" value
- * @method FlipFacebookUser setMyRatings()              Sets the current record's "MyRatings" value
- * @method FlipFacebookUser setRatingsOfMe()            Sets the current record's "RatingsOfMe" value
+ * @method integer             getUid()                    Returns the current record's "uid" value
+ * @method timestamp           getLastProfileUpdateAt()    Returns the current record's "last_profile_update_at" value
+ * @method string              getSessionKey()             Returns the current record's "session_key" value
+ * @method timestamp           getExpirationTime()         Returns the current record's "expiration_time" value
+ * @method Rating              getMyRatings()              Returns the current record's "MyRatings" value
+ * @method Rating              getRatingsOfMe()            Returns the current record's "RatingsOfMe" value
+ * @method Doctrine_Collection getMySkills()               Returns the current record's "MySkills" collection
+ * @method FlipFacebookUser    setUid()                    Sets the current record's "uid" value
+ * @method FlipFacebookUser    setLastProfileUpdateAt()    Sets the current record's "last_profile_update_at" value
+ * @method FlipFacebookUser    setSessionKey()             Sets the current record's "session_key" value
+ * @method FlipFacebookUser    setExpirationTime()         Sets the current record's "expiration_time" value
+ * @method FlipFacebookUser    setMyRatings()              Sets the current record's "MyRatings" value
+ * @method FlipFacebookUser    setRatingsOfMe()            Sets the current record's "RatingsOfMe" value
+ * @method FlipFacebookUser    setMySkills()               Sets the current record's "MySkills" collection
  * 
  * @package    flip
  * @subpackage model
@@ -61,6 +64,10 @@ abstract class BaseFlipFacebookUser extends sfDoctrineRecord
         $this->hasOne('Rating as RatingsOfMe', array(
              'local' => 'uid',
              'foreign' => 'by_uid'));
+
+        $this->hasMany('MySkills', array(
+             'local' => 'uid',
+             'foreign' => 'uid'));
 
         $timestampable0 = new Doctrine_Template_Timestampable();
         $softdelete0 = new Doctrine_Template_SoftDelete();

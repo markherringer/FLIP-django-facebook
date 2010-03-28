@@ -53,3 +53,18 @@ Rating:
     Skill:
       local: skill_id
       foreign: id
+
+MySkills:
+  actAs: [SoftDelete]
+  columns:
+    uid:
+      type: integer
+      notnull: true
+  relations:
+    FlipFacebookUser:
+      local: uid
+      foreign: uid
+      foreignType: id
+    Skills:
+      local: skill_id
+      foreign: id
