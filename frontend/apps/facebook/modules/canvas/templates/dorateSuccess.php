@@ -38,7 +38,7 @@
             </div>
             
             <div class="isprite module_footer">
-              <a class="isprite <?php if ($i == count($form->getEmbeddedForms())): ?>finish_btn<?php else: ?>next_btn next<?php endif;?> disabled" href="#"></a>
+              <a class="isprite <?php if ($i == count($form->getEmbeddedForms())): ?>finish_btn<?php else: ?>next_btn next<?php endif;?>" href="#"></a>
             </div>
         
           </div>

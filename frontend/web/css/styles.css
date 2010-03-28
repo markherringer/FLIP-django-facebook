@@ -302,3 +302,29 @@ body {
   height:335px;
   float:left;
 }
+
+#rating_summary
+{
+  text-align: center;
+  font-size: 1.35em;
+  line-height: 40px;
+}
+
+#edit_ratings_link
+{
+  float: right;
+  font-size: 0.8em;
+  text-align: center;
+  width: 110px;
+  margin-right: 30px;
+  line-height: 70px;
+  color: #ffffff;
+}
+
+.send_friend_btn {
+  background-position: -425px -82px;
+  float: right;
+  height: 40px;
+  margin: 15px 30px 0 0;
+  width: 195px;
+}
