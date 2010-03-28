@@ -14,5 +14,10 @@
     <script type="text/javascript">
       FB.init("<?php echo sfConfig::get("app_facebook_apiKey"); ?>", "xd_receiver.htm");
     </script>    
+	<script src="/js/cufon-yui.js" type="text/javascript"></script>
+	<script src="/js/Caecilia_700.font.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		Cufon.replace('h1.cufon');
+	</script>
   </body>
 </html>

@@ -26,6 +26,13 @@ class canvasActions extends sfActions
 
     // We have 2 calls to action on the home page by default
     // these are displayed in the view
+
+    // Get user's details
+    $this->userID = $this->facebook->user;
+    $user = $this->facebook->api_client->users_getInfo($this->userID, 'first_name, last_name');
+    $this->userName = $user[0]["first_name"] . " " . $user[0]["last_name"];
+
+    $this->ratings = Doctrine::getTable('Rating')->findByUid($this->userID);
   }
 
   /**

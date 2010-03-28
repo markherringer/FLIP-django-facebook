@@ -1,117 +1,62 @@
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js" > </script>
-<script src="http://cdn.jquerytools.org/1.1.2/jquery.tools.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-	var triggers = $("button.modalInput").overlay({ 
-		 
-	    // some expose tweaks suitable for modal dialogs 
-	    expose: { 
-	        color: '#ccc', 
-	        loadSpeed: 200, 
-	        opacity: 0.9 
-	    }, 
-	 
-	    closeOnClick: false 
-	});
+	<div class="wrapper">
+    
+		<div class="header">
+			<a href="#" class="logo" title="FLIP"></a>
+			<ul class="nav">
+				<li><a href="#" class="myflip">My Flip</a></li>
+				<li><a href="#" class="profile">Profile</a></li>
+				<li><a href="#" class="friends">Friends</a></li>
+				<li><a href="#" class="jobs">Jobs</a></li>
+				<li><a href="#" class="settings">Settings</a></li>
+			</ul>
+		</div><!-- END .header -->
+        
+		<div class="content">
+        
+        	<div id="top">
+                <h1 class="cufon"><?php echo $userName ?></h1>
+                <a href="#" class="publishBtn">Publish to Flip</a>
+                
+                <div class="clear"></div>
+            </div><!-- END #top -->
+            
+			<div class="leftCol">
+				<div class="photo">
+          <fb:profile-pic uid="<?php echo $userID; ?>" size="normal" width="178" height="208"></fb:profile-pic>
+				</div>
+				<a href="#" class="blueCta"><span>Primary quick link</span></a>
+				<a href="#" class="greyCta"><span>Quick link two</span></a>
+				<a href="#" class="greyCta"><span>Quick link three</span></a>
+			</div><!-- END .leftCol -->
+            
+			<div class="midCol">
+				<h2 class="ratingsTitle">How your friends rate your skills</h2>
+				<ul class="ratingsList">
+<?php foreach ($ratings as $rating): ?>
+					<li>
+						<a href="#" class="ratingStar selected"></a>
+						<h4><?php echo $rating->rating ?> at <?php echo $rating->Skill->name ?></h4>
+						<div>
+							<em class="innerLeft">by <a href="#">John</a> and <a href="#">8 others</a></em>
+							<a href="#" class="innerRight">Hide this rating</a>
+						</div>
+					</li>
+<?php endforeach ?>
+				</ul>
+                
+                <a class="rounded_corners skills_btn" href="<?php echo url_for('@canvas_rateafriend') ?>">Call to action btn</a>
+			</div><!-- END .midCol -->
+            
+			<div class="rightCol">
+                <h2 class="jobTitle">Your chosen skills</h2>
+				<ul class="jobsList">
+					<li>
+						<p class="chosen_intro">To start your profile, drag skills from what your friends have said into here.</p>
+					</li>
+                </ul>
+			</div><!-- END .rightCol -->
 
-	var buttons = $("#yesno button").click(function(e) { 
-	     
-	    // get user input 
-	    var yes = buttons.index(this) === 0; 
-	 
-	    // do something with the answer 
-	    triggers.eq(0).html("You clicked " + (yes ? "yes" : "no")); 
-	});
-
-	$("#prompt form").submit(function(e) { 
-		 
-	    // close the overlay 
-	    triggers.eq(1).overlay().close(); 
-	 
-	    // get user input 
-	    var input = $("input", this).val(); 
-	 
-	    // do something with the answer 
-	    triggers.eq(1).html(input); 
-	 
-	    // do not submit the form 
-	    return e.preventDefault(); 
-	});
-	
-});
-
-</script>
-<style type="text/css">
-.modal { 
-    background-color:#fff; 
-    display:none; 
-    width:350px; 
-    padding:15px; 
-    text-align:left; 
-    border:2px solid #333; 
- 
-    opacity:0.8; 
-    -moz-border-radius:6px; 
-    -webkit-border-radius:6px; 
-    -moz-box-shadow: 0 0 50px #ccc; 
-    -webkit-box-shadow: 0 0 50px #ccc; 
-} 
- 
-.modal h2 { 
-    background:url(/img/global/info.png) 0 50% no-repeat; 
-    margin:0px; 
-    padding:10px 0 10px 45px; 
-    border-bottom:1px solid #333; 
-    font-size:20px; 
-}
-</style>
-
-<h1>Welcome to FLIP</h1>
-
-
-<a href="<?php echo url_for("@canvas_rateafriend");?>">Select a friend to rate</a>
-
-<hr />
-
-<a href="<?php echo url_for("@default?module=canvas&action=test"); ?>">Kevin's Test page</a>
-
-<!-- the triggers --> 
-<p> 
-    <button class="modalInput" rel="#yesno">Yes or no?</button> 
-    <button class="modalInput" rel="#prompt">User input</button> 
-</p> 
- 
-<!-- yes/no dialog --> 
-<div class="modal" id="yesno"> 
-    <h2>This is a modal dialog</h2> 
- 
-    <p> 
-        You can only interact with elements that are inside this dialog. 
-        To close it click a button or use the ESC key. 
-    </p> 
- 
-    <!-- yes/no buttons --> 
-    <p> 
-        <button class="close"> Yes </button> 
-        <button class="close"> No </button> 
-    </p> 
-</div> 
- 
-<!-- user input dialog --> 
-<div class="modal" id="prompt"> 
-    <h2>This is a modal dialog</h2> 
- 
-    <p> 
-        You can only interact with elements that are inside this dialog. 
-        To close it click a button or use the ESC key. 
-    </p> 
- 
-    <!-- input form. you can press enter too --> 
-    <form> 
-        <input /> 
-        <button type="submit"> OK </button> 
-        <button type="button" class="close"> Cancel </button> 
-    </form> 
-    <br /> 
- 
-</div>
+		</div><!-- END .content -->
+	</div><!-- END .wrapper -->
+       
+</body></html>

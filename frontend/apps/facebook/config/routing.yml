@@ -26,6 +26,12 @@ canvas_dorate:
     module: canvas
     action: dorate
 
+canvas_saveratings:
+  url: /canvas/saveratings
+  param:
+    module: canvas
+    action: saveratings
+
 canvas_summary:
   url: /canvas/ratingsummary
   param:

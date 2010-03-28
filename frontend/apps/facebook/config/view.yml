@@ -12,7 +12,7 @@ default:
     #language:     en
     #robots:       index, follow
 
-  stylesheets:    [main.css, styles.css]
+  stylesheets:    [main.css, styles.css, canvas_styles.css]
 
   javascripts:    [jquery, customInput, slider]
 
