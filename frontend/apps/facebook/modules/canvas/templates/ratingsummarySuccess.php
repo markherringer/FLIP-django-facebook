@@ -4,7 +4,7 @@
 
 <?php include_partial("flashes"); ?>
 
-<p>Below is a summary of all the ratings you have provided.  If you're happy with these, please click "Finish".</p>
+<p>Below is a summary of all the ratings you have provided.  If you're happy with these, please click "Finish", or you can edit them</p>
 
 <?php foreach ($skills as $skill): ?>
   <div>
@@ -14,3 +14,4 @@
 <?php endforeach; ?>
 
 <button>Finish</button>
+or <a href="<?php echo url_for("@canvas_dorate", true); ?>">Edit</a>

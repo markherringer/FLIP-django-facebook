@@ -22,6 +22,7 @@ class SkillRatingForm extends sfForm
     }
     $this->widgetSchema["rating"] = new sfWidgetFormSelectRadio(array("choices" => $choices));
     $this->validatorSchema["rating"] = new sfValidatorChoice(array("choices" => $choices));
+    $this->widgetSchema["rating"]->setDefault($this->getDefault("rating"));
     
     // Set up additional validation
     $this->validatorSchema->setPostValidator(

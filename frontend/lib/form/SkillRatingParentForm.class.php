@@ -16,7 +16,7 @@ class SkillRatingParentForm extends sfForm
     
     for ($i = 0; $i < $skills->count(); $i++)
     {
-      $newForm = new SkillRatingForm(array(), array("skills" => $skills, "position" => $i));
+      $newForm = new SkillRatingForm($this->getDefault($skills->offsetGet($i)->name), array("skills" => $skills, "position" => $i));
       $newForm->disableCSRFProtection();
       $newForm->disableLocalCSRFProtection();
       unset($newForm["_csrf_token"]);

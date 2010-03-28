@@ -100,8 +100,23 @@ class canvasActions extends sfActions
     // Where are we at in the process?
     $this->ratePosition = 0;
     
+    // Set up defaults
+    $defaults = array();
+    $existingRatings = $this->getUser()->getAttribute("friendRatings", array());
+    if (!empty($existingRatings))
+    {
+      // construct our default array nicely
+      foreach ($this->skills as $skill)
+      {
+        if (array_key_exists($skill->id, $existingRatings))
+        {
+          $defaults[$skill->name] = array("rating" => $existingRatings[$skill->id]);
+        }
+      }
+    }
+    
     // Create our form
-    $this->form = new SkillRatingParentForm(array(), array("position" => $this->ratePosition, "skills" => $this->skills));
+    $this->form = new SkillRatingParentForm($defaults, array("position" => $this->ratePosition, "skills" => $this->skills));
     
     // handle post
     if ($request->isMethod("post"))
