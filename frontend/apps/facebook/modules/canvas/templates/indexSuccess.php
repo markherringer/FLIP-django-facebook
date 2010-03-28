@@ -35,16 +35,16 @@
 <?php foreach ($ratings as $rating): ?>
 					<li>
 						<a href="#" class="ratingStar selected"></a>
-						<h4><?php echo $rating->rating ?> at <?php echo $rating->Skill->name ?></h4>
+						<h4><?php echo $rating["rating"]->rating ?> at <?php echo $rating["rating"]->Skill->name ?></h4>
 						<div>
-							<em class="innerLeft">by <a href="#">John</a> and <a href="#">8 others</a></em>
+							<em class="innerLeft">by <a href="#"><?php echo $rating["rater"]?></a><!-- and <a href="#">otjer</a>--></em>
 							<a href="#" class="innerRight">Hide this rating</a>
 						</div>
 					</li>
 <?php endforeach ?>
 				</ul>
-                
-                <a class="rounded_corners skills_btn" href="<?php echo url_for('@canvas_rateafriend') ?>">Call to action btn</a>
+                <br /><br />
+                <a class="rounded_corners skills_btn" style="margin-top: 20px;" href="<?php echo url_for('@canvas_rateafriend') ?>">Rate your friends' skills</a>
 			</div><!-- END .midCol -->
             
 			<div class="rightCol">

@@ -32,7 +32,19 @@ class canvasActions extends sfActions
     $user = $this->facebook->api_client->users_getInfo($this->userID, 'first_name, last_name');
     $this->userName = $user[0]["first_name"] . " " . $user[0]["last_name"];
 
-    $this->ratings = Doctrine::getTable('Rating')->findByUid($this->userID);
+    $ratings = Doctrine::getTable('Rating')->findByUid($this->userID);
+    $newRatings = array();
+    foreach ($ratings as $rating)
+    {
+      if (substr($rating->rating, 0, 3) != "Not")
+      {
+        $friend = $this->facebook->api_client->users_getInfo($rating->by_uid, 'first_name, last_name');
+        $raterName = $friend[0]["first_name"] . " " . $friend[0]["last_name"];
+        
+        $newRatings[] = array("rating" => $rating, "rater" => $raterName);
+      }
+    }
+    $this->ratings = $newRatings;
   }
 
   /**
