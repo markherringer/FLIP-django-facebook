@@ -10,7 +10,7 @@ class SkillRatingForm extends sfForm
   public function configure()
   {
     // name format
-    //$this->widgetSchema->setOption("name_format", "rating[%s]");
+    $this->widgetSchema->setOption("name_format", "__rating_%s");
     
     // Set up the radio icons for the 4 states
     $states = Doctrine::getTable("Rating")->getStates();
@@ -20,7 +20,7 @@ class SkillRatingForm extends sfForm
     {
       $choices[$state] = $state;
     }
-    $this->widgetSchema["rating"] = new sfWidgetFormSelectRadio(array("choices" => $choices));
+    $this->widgetSchema["rating"] = new woWidgetFormSelectRadio(array("choices" => $choices));
     $this->validatorSchema["rating"] = new sfValidatorChoice(array("choices" => $choices));
     $this->widgetSchema["rating"]->setDefault($this->getDefault("rating"));
     

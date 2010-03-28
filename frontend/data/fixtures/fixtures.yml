@@ -2,10 +2,12 @@
 
 Skill:
   skill1:
-    name: "Handling money"
+    name: "making things happen"
   skill2:
-    name: "Talking to new people"
+    name: "making new friends"
   skill3:
-    name: "Getting the job done"
+    name: "arguing their point of view"
   skill4:
-    name: "Coping under pressure"
+    name: "solving problems"
+  skill5:
+    name: "suggesting things to do when you're bored"

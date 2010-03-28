@@ -91,11 +91,18 @@ class canvasActions extends sfActions
     
     // Get friend's details
     $this->friendID = $this->getUser()->getAttribute("selectedFriend");
+    $this->getResponse()->setSlot("friendID", $this->friendID);
     $friend = $this->facebook->api_client->users_getInfo($this->friendID, 'first_name, last_name');
     $this->friendName = $friend[0]["first_name"] . " " . $friend[0]["last_name"];
     
     // Get all the skills we're going to be rating the friend on
     $this->skills = Doctrine::getTable("Skill")->findAll();
+    $skillNames = array();
+    foreach ($this->skills as $skill)
+    {
+      $skillNames[$skill->id] = $skill->name;
+    }
+    $this->skillNames = $skillNames;
     
     // Where are we at in the process?
     $this->ratePosition = 0;
@@ -118,6 +125,9 @@ class canvasActions extends sfActions
     // Create our form
     $this->form = new SkillRatingParentForm($defaults, array("position" => $this->ratePosition, "skills" => $this->skills));
     
+    // Name into a slot for the layout
+    $this->getResponse()->setSlot("fbUsername", $this->friendName);
+    
     // handle post
     if ($request->isMethod("post"))
     {
@@ -132,7 +142,21 @@ class canvasActions extends sfActions
    */
   protected function processRatingForm(sfWebRequest $request)
   {
-    $this->form->bind($request->getParameter($this->form->getName()));
+    // massage the input values
+    $values = array();
+    $passedValues = $request->getParameterHolder()->getAll();
+    $nameFormat = str_replace("%s", "(\d+)", $this->form->getName());
+    foreach ($passedValues as $key => $val)
+    {
+      if (preg_match("/$nameFormat/", $key, $matches))
+      {
+        // this is one of ours
+        $id = $matches[1];
+        $values[$id] = $val;
+      }
+    }
+
+    $this->form->bind($values);
     if ($this->form->isValid())
     {
       // cool, rating is OK

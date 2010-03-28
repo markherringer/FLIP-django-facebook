@@ -5,7 +5,7 @@ class SkillRatingParentForm extends sfForm
   public function configure()
   {
     // Schema name format
-    $this->widgetSchema->setOption("name_format", "sr_parent[%s]");
+    $this->widgetSchema->setOption("name_format", "sr_parent__%s");
     
     // Embed a form for each skill we have
     $skills = $this->getOption("skills", false);
@@ -20,7 +20,7 @@ class SkillRatingParentForm extends sfForm
       $newForm->disableCSRFProtection();
       $newForm->disableLocalCSRFProtection();
       unset($newForm["_csrf_token"]);
-      $this->embedForm($skills->offsetGet($i)->name, $newForm);
+      $this->embedForm($skills->offsetGet($i)->id, $newForm);
     }
   }
   

@@ -281,3 +281,24 @@ body {
 	margin: 15px 30px 0 0;
 	width: 129px;
 }
+
+
+#slider-pane{
+  width:680px;
+  height:335px;
+  overflow:hidden;
+  margin-left:10px;
+}
+#slider{
+  width:3400px;
+  height:335px;
+  left:0;
+  position:relative;
+
+  
+}
+.question-pane{
+  width:680px;
+  height:335px;
+  float:left;
+}
