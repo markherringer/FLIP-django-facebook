@@ -5,7 +5,7 @@
               <h3><?php echo $friendName; ?></h3>
             </div><!-- END #module_header -->
     
-      <form id="frmQuestions" name="frmQuestions" method="post" action="<?php echo url_for("@canvas_dorate"); ?>">
+      <form id="frmQuestions" name="frmQuestions" method="post" action="<?php echo url_for("@canvas_saveratings"); ?>">
       
       <div id="slider-pane">
         <div id="slider">
@@ -65,7 +65,7 @@
 
         function redirCallback()
         {
-          this.location.href = "/canvas";
+          document.getElementById("frmQuestions").submit();
         }
     });
 </script>

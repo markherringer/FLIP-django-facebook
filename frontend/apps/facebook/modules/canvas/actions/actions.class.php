@@ -261,7 +261,7 @@ class canvasActions extends sfActions
     
     // and send the user back to a confirmation page
     $this->getUser()->setAttribute("confirmratings", true);
-    $this->redirect("@canvas_confirmation");
+    $this->redirect("@canvas");
   }
 
   /**
