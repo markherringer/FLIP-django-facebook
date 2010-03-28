@@ -24,9 +24,9 @@
 				<div class="photo">
           <fb:profile-pic uid="<?php echo $userID; ?>" size="normal" width="178" height="208"></fb:profile-pic>
 				</div>
-				<a href="#" class="blueCta"><span>Primary quick link</span></a>
-				<a href="#" class="greyCta"><span>Quick link two</span></a>
-				<a href="#" class="greyCta"><span>Quick link three</span></a>
+				<a href="#" class="rounded_corners left_btn_blue"><span>Primary quick link</span></a>
+				<a href="#" class="rounded_corners left_btn_grey"><span>Quick link two</span></a>
+				<a href="#" class="rounded_corners left_btn_grey"><span>Quick link three</span></a>
 			</div><!-- END .leftCol -->
             
 			<div class="midCol">
