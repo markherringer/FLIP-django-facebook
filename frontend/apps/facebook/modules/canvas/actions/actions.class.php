@@ -98,7 +98,7 @@ class canvasActions extends sfActions
     $this->skills = Doctrine::getTable("Skill")->findAll();
     
     // Where are we at in the process?
-    $this->ratePosition = $this->getUser()->getAttribute("ratingPosition", 0);
+    $this->ratePosition = 0;
     
     // Create our form
     $this->form = new SkillRatingParentForm(array(), array("position" => $this->ratePosition, "skills" => $this->skills));
@@ -171,6 +171,64 @@ class canvasActions extends sfActions
     
     // Get all the skills we've rated the friend on
     $this->skills = Doctrine::getTable("Skill")->findAll();
+  }
+  
+  /**
+   * Called after the user has (hopefully) posted something to their friend's wall,
+   * and saves the ratings.  This should be the result of a post.
+   * 
+   * @param sfWebRequest $request
+   */
+  public function executeSaveratings(sfWebRequest $request)
+  {
+    $this->checkLogin();
+    
+    $this->ratings = $this->getUser()->getAttribute("friendRatings", false);
+    if (!$this->ratings || empty($this->ratings))
+    {
+      $this->redirect("@canvas_rateafriend");
+    }
+
+    // user ID?
+    if (!$this->getUser()->getAttribute("selectedFriend", false))
+    {
+      $this->redirect("@canvas_rateafriend");
+    }
+    
+    if (!$request->isMethod("post"))
+    {
+      $this->redirect("@canvas_rateafriend");
+    }
+    
+    // Cool, everything is hunky-dory
+    $this->saveRatings();
+    
+    // and send the user back to a confirmation page
+    $this->getUser()->setAttribute("confirmratings", true);
+    $this->redirect("@canvas_confirmation");
+  }
+
+  /**
+   * The final success page, shown once the user has completed all the ratings.
+   * 
+   * @param sfWebRequest $request
+   */
+  public function executeRatingsuccess(sfWebRequest $request)
+  {
+    if (!$this->getUser()->getAttribute("confirmratings", false))
+    {
+      $this->redirect("@canvas_rateafriend");
+    }
+    
+    // Everything's been done
+    $this->friendID = $this->getUser()->getAttribute("selectedFriend");
+    $friend = $this->facebook->api_client->users_getInfo($this->friendID, 'first_name, last_name');
+    $this->friendName = $friend[0]["first_name"] . " " . $friend[0]["last_name"];
+    
+    // Clear the session
+    $this->getUser()->offsetUnset("confirmratings");
+    $this->getUser()->offsetUnset("selectedFriend");
+    $this->getUser()->offsetUnset("friendRatings");
   }
   
   /**

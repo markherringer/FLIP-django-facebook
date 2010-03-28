@@ -8,6 +8,12 @@ homepage:
 
 # Canvas URLs
 
+canvas:
+  url: /canvas
+  param:
+    module: canvas
+    action: index
+
 canvas_rateafriend:
   url: /canvas/rateafriend
   param:
@@ -31,6 +37,12 @@ canvas_xdreceiver:
   param:
     module: canvas
     action: xdreceiver
+
+canvas_confirmation:
+  url: /canvas/ratingsuccess
+  param:
+    module: canvas
+    action: ratingsuccess
 
 # generic rules
 # please, remove them by adding more specific rules
